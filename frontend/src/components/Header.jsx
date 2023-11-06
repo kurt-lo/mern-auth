@@ -1,21 +1,27 @@
-import { Navbar, Container, Nav, NavbarBrand } from 'react-bootstrap'
-
+import { Navbar, Container, Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Header = () => {
+
+    //LinkContainer to='/' eto yung way para maging SPA, hindi na mag 
+    // rereload yung website ng buo
     return (
         <header>
             <Navbar bg="dark" variant='dark' expand='lg' collapseOnSelect>
                 <Container>
-                    <Navbar.Brand href='/'>MERN AUTH</Navbar.Brand>
+                    <LinkContainer to='/'>
+                        <Navbar.Brand>MERN AUTH</Navbar.Brand>
+                    </LinkContainer>
+
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ms-auto'>
-                            <Nav.Link href='/login'>
-                                Sign In
-                            </Nav.Link>
-                            <Nav.Link href='/register'>
-                                Sign Out
-                            </Nav.Link>
+                            <LinkContainer to='/login'>
+                                <Nav.Link>Login</Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to='/register'>
+                                <Nav.Link>Register</Nav.Link>
+                            </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
