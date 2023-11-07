@@ -1,6 +1,9 @@
 import { Navbar, Container, Nav, NavDropdown, Badge } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLogoutMutation } from '../slices/usersApiSlice'
+import { logout } from '../slices/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
 
@@ -8,6 +11,21 @@ const Header = () => {
     // rereload yung website ng buo
 
     const { userInfo } = useSelector((state) => state.auth)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [logoutApiCall] = useLogoutMutation()
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap()
+            dispatch(logout())
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <header>
@@ -27,7 +45,7 @@ const Header = () => {
                                                 Profile
                                             </NavDropdown.Item>
                                         </LinkContainer>
-                                        <NavDropdown.Item>
+                                        <NavDropdown.Item onClick={ logoutHandler }>
                                             Logout
                                         </NavDropdown.Item>
                                     </NavDropdown>
