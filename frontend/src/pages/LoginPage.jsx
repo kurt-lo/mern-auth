@@ -1,16 +1,40 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux' 
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
+import { useLoginMutation } from '../slices/usersApiSlice'
+import { setCredentials } from '../slices/authSlice'
+import { toast } from 'react-toastify'
 
 const LoginPage = () => {
+
+    const navigate = useNavigate() // use dispatch is to dispatch the action
+    const dispatch = useDispatch() // useselector to select from the global state
+
+    const [login, { isLoading }] = useLoginMutation()
+
+    const { userInfo } = useSelector((state) => state.auth)
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/')
+        }
+    }, [navigate, userInfo])
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        console.log('submitted')
+        try {
+            const response = await login ({ email, password }).unwrap()
+            dispatch(setCredentials({ ...response }))
+            navigate('/')
+            toast.success("Login successfully!");
+        } catch (error) {
+           toast.error(error?.data?.message || error.error)
+        }
     }
 
     return (
@@ -31,7 +55,7 @@ const LoginPage = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type='password'
-                        placeholder='Enter Passowrd'
+                        placeholder='Enter Password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     >
