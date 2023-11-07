@@ -14,6 +14,8 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import { Provider } from 'react-redux';
 import store from './store.js'
+import ProfilePage from './pages/ProfilePage.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +23,10 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={<HomePages />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
+      {/* THIS IS PRIVATE ROUTE NEEDS TO BE AUTHENTICATED FIRST */}
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/profile' element={<ProfilePage />} />
+      </Route>
     </Route>
   )
 )
