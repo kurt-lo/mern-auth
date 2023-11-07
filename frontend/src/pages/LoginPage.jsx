@@ -6,6 +6,7 @@ import FormContainer from '../components/FormContainer'
 import { useLoginMutation } from '../slices/usersApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import { toast } from 'react-toastify'
+import Loading from '../components/Loading'
 
 const LoginPage = () => {
 
@@ -61,6 +62,9 @@ const LoginPage = () => {
                     >
                     </Form.Control>
                 </Form.Group>
+
+                { isLoading && <Loading />}
+
                 <Button type='submit' variant='primary' className='mt-3'>
                     Login
                 </Button>
